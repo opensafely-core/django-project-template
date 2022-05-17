@@ -1,0 +1,20 @@
+# Update with relevant username/password if necessary
+DATABASE_URL=postgres://user:pass@localhost:5432/interactive
+
+# Turn on debug
+DEBUG=1
+
+# A long random string
+SECRET_KEY=12345
+
+# Turn on local Vite Dev Server
+DJANGO_VITE_DEV_MODE=False
+
+# Site URL
+BASE_URL=http://localhost:8000
+
+
+# PRODUCTION ONLY
+# Sentry
+SENTRY_DSN=
+SENTRY_ENVIRONMENT=
