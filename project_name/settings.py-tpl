@@ -57,6 +57,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django_browser_reload.middleware.BrowserReloadMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "django_permissions_policy.PermissionsPolicyMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -66,6 +67,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_structlog.middlewares.RequestMiddleware",
+    "csp.middleware.CSPMiddleware",
+    "{{ project_name }}.middleware.XSSFilteringMiddleware",
 ]
 
 ROOT_URLCONF = "{{ project_name }}.urls"
@@ -162,6 +165,18 @@ SILENCED_SYSTEM_CHECKS = [
 CSRF_COOKIE_SECURE = not DEBUG
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_TRUSTED_ORIGINS = [BASE_URL]
+
+
+# CSP
+# https://django-csp.readthedocs.io/en/latest/configuration.html
+CSP_DEFAULT_SRC = ["'self'"]
+
+# configure django-csp to work with Vite when using it in dev mode
+if DJANGO_VITE_DEV_MODE:
+    CSP_CONNECT_SRC = ["ws://localhost:3000/static/bundle/"]
+    CSP_FONT_SRC = ["self", "data:"]
+    CSP_SCRIPT_SRC_ELEM = ["http://localhost:3000"]
+    CSP_STYLE_SRC = ["'unsafe-inline'"]
 
 
 # THIRD PARTY SETTINGS
